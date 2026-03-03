@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The History of Food Trucks - Senior Advanced English</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arimo:wght@400;700&family=Merriweather:wght@400;700&family=Azeret+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Markmap Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-view@0.14.4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/markmap-lib@0.14.4/dist/browser/index.js"></script>
+
+    <style>
+        :root {
+            --primary: #0f172a;
+            --secondary: #f97316;
+            --text-main: #f8fafc;
+            --text-dim: #94a3b8;
+            --bg-accent: #1e293b;
+            --correct: #22c55e;
+            --wrong: #ef4444;
+            --dark-blue: #1a2b3c;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: #020617;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; width: 100vw; overflow: hidden;
+            font-family: 'Arimo', sans-serif; color: var(--text-main);
+        }
+
+        /* Essential Viewport Scaling */
+        #viewport-wrapper {
+            display: flex; justify-content: center; align-items: center;
+            width: 100%; height: 100%;
+        }
+
+        #presentation-stage {
+            position: relative; width: 1280px; height: 720px;
+            background-color: var(--primary);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.8);
+            transform-origin: center; flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        /* Slide Core Styling */
+        .slide-container {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: none; flex-direction: column; padding: 40px 70px 100px 70px; /* Added bottom padding for nav */
+            z-index: 1; opacity: 0; transition: opacity 0.3s ease;
+        }
+
+        .slide-container.active { display: flex; opacity: 1; z-index: 10; }
+
+        /* Fix for Bleed Layout */
+        .slide-container.active.bleed-image-layout { display: grid; grid-template-columns: 1fr 1fr; padding: 0; }
+
+        /* Decoration */
+        .slide-container::before {
+            content: ''; position: absolute; top: -200px; right: -200px;
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        /* Typography */
+        h1, h2, h3 { font-family: 'Merriweather', serif; color: var(--text-main); z-index: 2; }
+        .slide-title { font-size: 38px; font-weight: 700; margin-bottom: 20px; border-left: 8px solid var(--secondary); padding-left: 20px; line-height: 1.1; }
+        p, li, th, td { font-size: 19px; line-height: 1.5; color: var(--text-dim); z-index: 2; }
+
+        /* Navigation */
+        #nav-footer {
+            position: absolute; bottom: 20px; width: 100%;
+            display: flex; justify-content: center; align-items: center; gap: 40px; z-index: 100;
+        }
+        .nav-btn {
+            background: var(--bg-accent); color: white; border: 1px solid var(--secondary);
+            padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: 'Azeret Mono', monospace; transition: 0.2s;
+        }
+        .nav-btn:hover { background: var(--secondary); color: var(--primary); }
+        #page-count { font-family: 'Azeret Mono', monospace; font-size: 16px; color: var(--text-dim); }
+
+        /* Content Areas */
+        .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; z-index: 2; overflow: hidden; }
+        .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+        .image-wrapper { border-radius: 15px; overflow: hidden; border: 1px solid var(--secondary); height: 350px; }
+        .image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* Vocabulary Table */
+        .table-layout { width: 100%; background: var(--bg-accent); border-radius: 12px; border-collapse: collapse; overflow: hidden; }
+        .table-layout th { background: var(--secondary); color: var(--primary); padding: 12px; text-align: left; }
+        .table-layout td { padding: 10px 15px; border-bottom: 1px solid #334155; color: var(--text-main); }
+        .vocab-word { font-weight: 700; color: var(--secondary); }
+
+        /* Enlarged Summary Box */
+        .summary-box {
+            font-size: 32px; line-height: 1.5; color: var(--text-main);
+            background: var(--bg-accent); padding: 40px; border-radius: 20px;
+            border: 2px solid var(--secondary); text-align: justify;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 2;
+        }
+
+        /* Mindmap Area Fixes */
+        .mindmap-area { width: 100%; height: 480px; background: white; border-radius: 12px; position: relative; border: 3px solid var(--secondary); }
+        #markmap-svg { width: 100%; height: 100%; color: var(--dark-blue); } /* Force text color */
+        #markmap-svg text { fill: var(--dark-blue) !important; font-weight: 700 !important; }
+
+        /* Quiz UI Layout Improvements */
+        .quiz-scroll { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; max-height: 480px; padding-right: 15px; z-index: 2; }
+        .q-card { background: var(--bg-accent); border: 2px solid #334155; padding: 18px; border-radius: 12px; position: relative; }
+        .q-card.correct { border-color: var(--correct); background: rgba(34, 197, 94, 0.05); }
+        .q-card.wrong { border-color: var(--wrong); background: rgba(239, 68, 68, 0.05); }
+        .q-text { font-size: 19px; font-weight: 700; margin-bottom: 10px; color: var(--text-main); }
+        .opt-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .opt-btn { background: var(--primary); color: var(--text-main); border: 1px solid #334155; padding: 8px; border-radius: 8px; cursor: pointer; text-align: left; transition: 0.2s; font-size: 15px; }
+        .opt-btn.selected { background: var(--secondary); color: var(--primary); border-color: var(--secondary); }
+        .sa-input { width: 100%; padding: 10px; background: var(--primary); border: 1px solid #334155; color: white; border-radius: 8px; font-size: 16px; }
+        .ans-reveal { margin-top: 8px; font-weight: 700; display: none; font-size: 16px; }
+        .check-btn { background: var(--secondary); color: var(--primary); border: none; padding: 10px 30px; border-radius: 6px; font-weight: 800; cursor: pointer; margin-top: 10px; }
+
+        /* Bleed Layout Content */
+        .bleed-content { padding: 50px 70px; display: flex; flex-direction: column; justify-content: center; z-index: 2; }
+        .bleed-img { height: 720px; width: 100%; object-fit: cover; z-index: 1; border-left: 2px solid var(--secondary); }
+
+        .video-box { margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; color: var(--secondary); text-decoration: none; font-weight: bold; font-size: 20px; z-index: 5; }
+    </style>
+</head>
+<body>
+
+    <div id="viewport-wrapper">
+        <div id="presentation-stage">
+            
+            <!-- Slide 1: Title -->
+            <div class="slide-container active" id="slide1">
+                <div class="content-area" style="text-align: center;">
+                    <p style="font-family: 'Azeret Mono', monospace; color: var(--secondary); letter-spacing: 5px; margin-bottom: 20px; font-weight: 700;">SENIOR ADVANCED ENGLISH</p>
+                    <h1 style="font-size: 72px; line-height: 1.1;">The Gastronomic Odyssey:<br>Food Truck Evolution</h1>
+                    <p style="margin-top: 20px; font-size: 22px; color: var(--text-dim);">Economy, Culture, and Technology in American Street Food</p>
+                    <a href="https://youtu.be/MHlFI96ZO4U" target="_blank" class="video-box">
+                        <i class="fab fa-youtube"></i> WATCH THE ANALYSIS VIDEO
+                    </a>
+                </div>
+            </div>
+
+            <!-- Slide 2: Vocabulary -->
+            <div class="slide-container" id="slide2">
+                <h2 class="slide-title">Advanced Academic Vocabulary</h2>
+                <div class="content-area">
+                    <table class="table-layout">
+                        <thead>
+                            <tr><th style="width: 28%;">Term</th><th>English Definition</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td><span class="vocab-word">Watershed Moment</span></td><td>A critical turning point that fundamentally changes history or perception.</td></tr>
+                            <tr><td><span class="vocab-word">Inception</span></td><td>The starting point or the establishment of an institution or major activity.</td></tr>
+                            <tr><td><span class="vocab-word">Economic Recession</span></td><td>A period of significant decline in economic activity across the economy.</td></tr>
+                            <tr><td><span class="vocab-word">Culinary Fusion</span></td><td>The blending of diverse cultural cooking techniques and distinct flavors.</td></tr>
+                            <tr><td><span class="vocab-word">Detonate</span></td><td>(Metaphorically) To explode in popularity or cause a massive social impact.</td></tr>
+                            <tr><td><span class="vocab-word">Logistics</span></td><td>The detailed coordination of a complex operation involving many facilities.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Slide 3: Part 1 - 1866 Chuck Wagon -->
+            <div class="slide-container" id="slide3">
+                <h2 class="slide-title">Part 1: The 1866 Chuck Wagon</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div>
+                            <h3 style="color: var(--secondary); margin-bottom: 20px;">The Necessity of Survival</h3>
+                            <p>In 1866, <strong>Charles Goodnight</strong> modified a surplus army wagon into the first "mobile kitchen" to feed cowboys during cattle drives.</p>
+                            <ul style="margin-top: 15px; color: var(--text-dim); padding-left: 20px;">
+                                <li style="margin-bottom: 8px;">Logistical storage for water and dried cornmeal.</li>
+                                <li style="margin-bottom: 8px;">Hinged door that converted into a cooking counter.</li>
+                                <li style="margin-bottom: 8px;">Survival innovation in the American West.</li>
+                            </ul>
+                        </div>
+                        <div class="image-wrapper">
+                            <img src="https://images.unsplash.com/photo-1512132411229-c30391241dd8?auto=format&fit=crop&q=80&w=1000" alt="Chuck Wagon History">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 4: Part 2 - Expansion (1930s-1970s) [Merged] -->
+            <div class="slide-container" id="slide4">
+                <h2 class="slide-title">Part 2: Expansion & Cultural Fusion</h2>
+                <div class="content-area">
+                    <div class="two-column">
+                        <div style="background: var(--bg-accent); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+                            <h3 style="color: var(--secondary); font-size: 22px;">Branding & War</h3>
+                            <p style="margin-top: 10px; font-size: 18px;">The 1936 <strong>Wienermobile</strong> became a marketing icon, while WWII <strong>mobile canteens</strong> fed factory workers and soldiers.</p>
+                        </div>
+                        <div style="background: var(--bg-accent); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+                            <h3 style="color: var(--secondary); font-size: 22px;">The Taco Era</h3>
+                            <p style="margin-top: 10px; font-size: 18px;">In 1974, <strong>King Taco</strong> in LA converted an ice cream truck, sparking the immigrant-led street food culture.</p>
+                        </div>
+                    </div>
+                    <div style="margin-top: 25px; text-align: center;">
+                         <img src="https://images.unsplash.com/photo-1541544537156-7627a7a4aa1c?auto=format&fit=crop&q=80&w=1000" style="width: 100%; max-width: 550px; height: 160px; object-fit: cover; border-radius: 10px; border: 1px solid var(--secondary);" alt="Street Food Evolution">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 5: Part 3 - 2008 Revolution [Bleed Fix] -->
+            <div class="slide-container bleed-image-layout" id="slide5">
+                <div class="bleed-content">
+                    <h2 class="slide-title">Part 3: 2008 Revolution</h2>
+                    <div class="content-area">
+                        <h3 style="color: var(--secondary);">The Digital Pivot</h3>
+                        <p style="margin-top: 10px;">The 2008 <strong>recession</strong> pushed chefs out of restaurants and onto the streets. <strong>Kogi BBQ</strong> used <strong>Twitter</strong> for real-time location updates.</p>
+                        <p style="margin-top: 10px;">Modern trucks are now sophisticated culinary platforms for urban professionals.</p>
+                    </div>
+                </div>
+                <img class="bleed-img" src="https://images.unsplash.com/photo-1565123409695-7b5ef63a2efb?auto=format&fit=crop&q=80&w=1000" alt="Gourmet Food Truck">
+            </div>
+
+            <!-- Slide 6: Executive Summary -->
+            <div class="slide-container" id="slide6">
+                <h2 class="slide-title">Executive Summary</h2>
+                <div class="content-area">
+                    <div class="summary-box">
+                        The evolution of food trucks is a profound reflection of American economic and cultural shifts. From its 19th-century origins as a survival tool (Chuck Wagon) to its rebranding as a corporate icon (Wienermobile) and its status as a gourmet digital powerhouse (Kogi BBQ), the industry has adapted. Today, it stands as a sophisticated blend of culinary innovation and digital logistics.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 7: Mindmap [Text Color Fixed] -->
+            <div class="slide-container" id="slide7">
+                <h2 class="slide-title">Interactive Historical Map</h2>
+                <div class="content-area">
+                    <div class="mindmap-area">
+                        <svg id="markmap-svg"></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 8: Assessment 1 -->
+            <div class="slide-container" id="slide8">
+                <h2 class="slide-title">Assessment (1/5)</h2>
+                <div class="content-area">
+                    <div class="quiz-scroll">
+                        <div class="q-card" data-ans="Charles Goodnight">
+                            <p class="q-text">1. Who invented the original Chuck Wagon in 1866?</p>
+                            <div class="opt-grid"><button class="opt-btn" onclick="sel(this)">Raul Martinez</button><button class="opt-btn" onclick="sel(this)">Charles Goodnight</button><button class="opt-btn" onclick="sel(this)">Oscar Mayer</button><button class="opt-btn" onclick="sel(this)">Roy Choi</button></div>
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="army surplus wagon">
+                            <p class="q-text">2. What did Goodnight adapt to create the Chuck Wagon?</p>
+                            <input type="text" class="sa-input" placeholder="Type answer here...">
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="1866">
+                            <p class="q-text">3. In what year was the Chuck Wagon introduced?</p>
+                            <div class="opt-grid"><button class="opt-btn" onclick="sel(this)">1936</button><button class="opt-btn" onclick="sel(this)">1866</button><button class="opt-btn" onclick="sel(this)">1974</button><button class="opt-btn" onclick="sel(this)">2008</button></div>
+                            <div class="ans-reveal"></div>
+                        </div>
+                    </div>
+                    <button class="check-btn" onclick="check(this)">CHECK ANSWERS</button>
+                </div>
+            </div>
+
+            <!-- Slide 9: Assessment 2 -->
+            <div class="slide-container" id="slide9">
+                <h2 class="slide-title">Assessment (2/5)</h2>
+                <div class="content-area">
+                    <div class="quiz-scroll">
+                        <div class="q-card" data-ans="hot dogs">
+                            <p class="q-text">4. What product did the 1936 Wienermobile advertise?</p>
+                            <input type="text" class="sa-input" placeholder="Type answer here...">
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="mobile canteens">
+                            <p class="q-text">5. During WWII, what fed factory workers and soldiers? (Mobile C______)</p>
+                            <input type="text" class="sa-input" placeholder="Type answer here...">
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="King Taco">
+                            <p class="q-text">6. Which truck was founded in 1974 using an ice cream truck?</p>
+                            <div class="opt-grid"><button class="opt-btn" onclick="sel(this)">Kogi BBQ</button><button class="opt-btn" onclick="sel(this)">King Taco</button><button class="opt-btn" onclick="sel(this)">Wienermobile</button><button class="opt-btn" onclick="sel(this)">Lunch Wagon</button></div>
+                            <div class="ans-reveal"></div>
+                        </div>
+                    </div>
+                    <button class="check-btn" onclick="check(this)">CHECK ANSWERS</button>
+                </div>
+            </div>
+
+            <!-- Slide 10: Assessment 3 -->
+            <div class="slide-container" id="slide10">
+                <h2 class="slide-title">Assessment (3/5)</h2>
+                <div class="content-area">
+                    <div class="quiz-scroll">
+                        <div class="q-card" data-ans="Roach Coaches">
+                            <p class="q-text">7. What was the derogatory nickname for old greasy trucks?</p>
+                            <div class="opt-grid"><button class="opt-btn" onclick="sel(this)">Grease Cars</button><button class="opt-btn" onclick="sel(this)">Roach Coaches</button><button class="opt-btn" onclick="sel(this)">Dust Wagons</button><button class="opt-btn" onclick="sel(this)">Bug Trucks</button></div>
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="2008">
+                            <p class="q-text">8. Which year is the watershed moment for modern trucks?</p>
+                            <div class="opt-grid"><button class="opt-btn" onclick="sel(this)">1974</button><button class="opt-btn" onclick="sel(this)">1936</button><button class="opt-btn" onclick="sel(this)">2008</button><button class="opt-btn" onclick="sel(this)">2012</button></div>
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="recession">
+                            <p class="q-text">9. The 2008 growth was fueled by the global ________.</p>
+                            <input type="text" class="sa-input" placeholder="Economic R________">
+                            <div class="ans-reveal"></div>
+                        </div>
+                    </div>
+                    <button class="check-btn" onclick="check(this)">CHECK ANSWERS</button>
+                </div>
+            </div>
+
+            <!-- Slide 11: Assessment 4 -->
+            <div class="slide-container" id="slide11">
+                <h2 class="slide-title">Assessment (4/5)</h2>
+                <div class="content-area">
+                    <div class="quiz-scroll">
+                        <div class="q-card" data-ans="Twitter">
+                            <p class="q-text">10. Which platform did Kogi BBQ use to share locations?</p>
+                            <div class="opt-grid"><button class="opt-btn" onclick="sel(this)">Facebook</button><button class="opt-btn" onclick="sel(this)">Instagram</button><button class="opt-btn" onclick="sel(this)">Twitter</button><button class="opt-btn" onclick="sel(this)">YouTube</button></div>
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="Kogi BBQ">
+                            <p class="q-text">11. Name the Korean-Mexican truck from 2008.</p>
+                            <input type="text" class="sa-input" placeholder="Type answer here...">
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="fusion">
+                            <p class="q-text">12. Blending flavors from different cultures is ______ cuisine.</p>
+                            <input type="text" class="sa-input" placeholder="F______">
+                            <div class="ans-reveal"></div>
+                        </div>
+                    </div>
+                    <button class="check-btn" onclick="check(this)">CHECK ANSWERS</button>
+                </div>
+            </div>
+
+            <!-- Slide 12: Assessment 5 -->
+            <div class="slide-container" id="slide12">
+                <h2 class="slide-title">Assessment (5/5)</h2>
+                <div class="content-area">
+                    <div class="quiz-scroll">
+                        <div class="q-card" data-ans="chefs">
+                            <p class="q-text">13. The revolution was led by _______ from top restaurants.</p>
+                            <input type="text" class="sa-input" placeholder="Type answer here...">
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="Free Wi-Fi">
+                            <p class="q-text">14. What modern feature is provided to attract professionals?</p>
+                            <div class="opt-grid"><button class="opt-btn" onclick="sel(this)">Free Wi-Fi</button><button class="opt-btn" onclick="sel(this)">Karaoke</button><button class="opt-btn" onclick="sel(this)">Games</button><button class="opt-btn" onclick="sel(this)">TV</button></div>
+                            <div class="ans-reveal"></div>
+                        </div>
+                        <div class="q-card" data-ans="survival">
+                            <p class="q-text">15. Trucks began as tools for _______ but became symbols of style.</p>
+                            <input type="text" class="sa-input" placeholder="S_______">
+                            <div class="ans-reveal"></div>
+                        </div>
+                    </div>
+                    <button class="check-btn" onclick="check(this)">CHECK ANSWERS</button>
+                </div>
+            </div>
+
+            <!-- Slide 13: Conclusion -->
+            <div class="slide-container" id="slide13" style="text-align: center; justify-content: center;">
+                <h1 style="font-size: 100px; color: var(--secondary);">EXCELLENT WORK!</h1>
+                <p style="font-size: 32px; margin-top: 40px; color: var(--text-main);">You have mastered the history of food trucks.</p>
+                <div style="margin-top: 60px; font-family: 'Azeret Mono', monospace; color: var(--text-dim);">
+                    <i class="fas fa-graduation-cap"></i> Lesson Complete
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div id="nav-footer">
+                <button class="nav-btn" onclick="moveSlide(-1)">PREVIOUS</button>
+                <div id="page-count">1 / 13</div>
+                <button class="nav-btn" onclick="moveSlide(1)">NEXT</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const stage = document.getElementById('presentation-stage');
+        const slides = document.querySelectorAll('.slide-container');
+        const pageCountText = document.getElementById('page-count');
+
+        function scalePresentation() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            const scale = Math.min(width / 1280, height / 720) * 0.95;
+            stage.style.transform = `scale(${scale})`;
+        }
+        window.addEventListener('resize', scalePresentation);
+        scalePresentation();
+
+        function moveSlide(dir) {
+            currentSlide += dir;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= slides.length) currentSlide = slides.length - 1;
+            renderSlide();
+        }
+
+        function renderSlide() {
+            slides.forEach((s, i) => {
+                s.classList.remove('active');
+                if(i === currentSlide) s.classList.add('active');
+            });
+            pageCountText.innerText = `${currentSlide + 1} / ${slides.length}`;
+            if (currentSlide === 6) {
+                setTimeout(initMarkmap, 50); // Small delay to ensure display:flex is set
+            }
+        }
+
+        function sel(btn) {
+            btn.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            const card = btn.closest('.q-card');
+            card.classList.remove('correct', 'wrong');
+            card.querySelector('.ans-reveal').style.display = 'none';
+        }
+
+        function check(btn) {
+            const slide = btn.closest('.slide-container');
+            slide.querySelectorAll('.q-card').forEach(card => {
+                const ans = card.dataset.ans.toLowerCase();
+                const reveal = card.querySelector('.ans-reveal');
+                let userAns = "", correct = false;
+                const opt = card.querySelector('.opt-btn.selected');
+                if(opt) { userAns = opt.innerText.toLowerCase(); correct = (userAns === ans); }
+                else {
+                    const input = card.querySelector('.sa-input');
+                    if(input) { userAns = input.value.toLowerCase().trim(); correct = (userAns !== "" && (userAns.includes(ans) || ans.includes(userAns))); }
+                }
+                card.classList.remove('correct', 'wrong');
+                card.classList.add(correct ? 'correct' : 'wrong');
+                reveal.style.display = 'block';
+                reveal.innerHTML = correct ? `<span style="color:var(--correct)"><i class="fas fa-check"></i> Correct!</span>` : `<span style="color:var(--wrong)"><i class="fas fa-times"></i> Answer: <strong>${card.dataset.ans}</strong></span>`;
+            });
+        }
+
+        let mm = null;
+        function initMarkmap() {
+            if (mm) return;
+            const md = `# 🚚 Food Truck History\n- **1866: Chuck Wagon**\n  - Charles Goodnight\n  - Feeding Cowboys\n- **1936: Wienermobile**\n  - Oscar Mayer\n  - Marketing Icon\n- **1950s-70s: Growth**\n  - Ice Cream Trucks\n  - Loncheras (Taco Trucks)\n  - "Roach Coaches" (Old nickname)\n- **2008: Modern Revolution**\n  - **Kogi BBQ (Roy Choi)**\n  - Korean-Mexican Fusion\n  - Used **Twitter** (SNS)\n  - Result of Economic Recession\n- **Today & Future**\n  - Gourmet Quality\n  - Healthy Options\n  - High Technology`;
+            const { Markmap, Transformer } = window.markmap;
+            const transformer = new Transformer();
+            const { root } = transformer.transform(md);
+            mm = Markmap.create('#markmap-svg', null, root);
+            
+            // Explicitly set text color after creation
+            d3.selectAll('#markmap-svg text').style('fill', '#1a2b3c');
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight' || e.key === ' ') moveSlide(1);
+            if(e.key === 'ArrowLeft') moveSlide(-1);
+        });
+
+        renderSlide();
+    </script>
+</body>
+</html>
