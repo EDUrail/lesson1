@@ -36,7 +36,7 @@
             font-family: 'Arimo', sans-serif; color: var(--text-main);
         }
 
-        /* Essential Viewport Scaling */
+        /* Viewport Scaling for Canvas & Mobile */
         #viewport-wrapper {
             display: flex; justify-content: center; align-items: center;
             width: 100%; height: 100%;
@@ -53,7 +53,7 @@
         /* Slide Core Styling */
         .slide-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: none; flex-direction: column; padding: 40px 70px 100px 70px; /* Added bottom padding for nav */
+            display: none; flex-direction: column; padding: 40px 70px 110px 70px; /* 여백 증가 */
             z-index: 1; opacity: 0; transition: opacity 0.3s ease;
         }
 
@@ -62,7 +62,7 @@
         /* Fix for Bleed Layout */
         .slide-container.active.bleed-image-layout { display: grid; grid-template-columns: 1fr 1fr; padding: 0; }
 
-        /* Decoration */
+        /* Background Decor */
         .slide-container::before {
             content: ''; position: absolute; top: -200px; right: -200px;
             width: 600px; height: 600px;
@@ -79,6 +79,7 @@
         #nav-footer {
             position: absolute; bottom: 20px; width: 100%;
             display: flex; justify-content: center; align-items: center; gap: 40px; z-index: 100;
+            background: rgba(15, 23, 42, 0.5); padding: 10px 0;
         }
         .nav-btn {
             background: var(--bg-accent); color: white; border: 1px solid var(--secondary);
@@ -99,7 +100,7 @@
         .table-layout td { padding: 10px 15px; border-bottom: 1px solid #334155; color: var(--text-main); }
         .vocab-word { font-weight: 700; color: var(--secondary); }
 
-        /* Enlarged Summary Box */
+        /* Summary Box */
         .summary-box {
             font-size: 32px; line-height: 1.5; color: var(--text-main);
             background: var(--bg-accent); padding: 40px; border-radius: 20px;
@@ -107,13 +108,14 @@
             box-shadow: 0 20px 50px rgba(0,0,0,0.5); z-index: 2;
         }
 
-        /* Mindmap Area Fixes */
+        /* Mindmap Fixes */
         .mindmap-area { width: 100%; height: 480px; background: white; border-radius: 12px; position: relative; border: 3px solid var(--secondary); }
-        #markmap-svg { width: 100%; height: 100%; color: var(--dark-blue); } /* Force text color */
-        #markmap-svg text { fill: var(--dark-blue) !important; font-weight: 700 !important; }
+        #markmap-svg { width: 100%; height: 100%; background: white; }
+        /* 마인드맵 텍스트 색상 강제 지정 */
+        #markmap-svg text { fill: var(--dark-blue) !important; font-weight: 700 !important; cursor: pointer; font-family: 'Arimo', sans-serif !important; }
 
-        /* Quiz UI Layout Improvements */
-        .quiz-scroll { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; max-height: 480px; padding-right: 15px; z-index: 2; }
+        /* Quiz UI */
+        .quiz-scroll { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; max-height: 440px; padding-right: 15px; z-index: 2; }
         .q-card { background: var(--bg-accent); border: 2px solid #334155; padding: 18px; border-radius: 12px; position: relative; }
         .q-card.correct { border-color: var(--correct); background: rgba(34, 197, 94, 0.05); }
         .q-card.wrong { border-color: var(--wrong); background: rgba(239, 68, 68, 0.05); }
@@ -125,10 +127,8 @@
         .ans-reveal { margin-top: 8px; font-weight: 700; display: none; font-size: 16px; }
         .check-btn { background: var(--secondary); color: var(--primary); border: none; padding: 10px 30px; border-radius: 6px; font-weight: 800; cursor: pointer; margin-top: 10px; }
 
-        /* Bleed Layout Content */
         .bleed-content { padding: 50px 70px; display: flex; flex-direction: column; justify-content: center; z-index: 2; }
         .bleed-img { height: 720px; width: 100%; object-fit: cover; z-index: 1; border-left: 2px solid var(--secondary); }
-
         .video-box { margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; color: var(--secondary); text-decoration: none; font-weight: bold; font-size: 20px; z-index: 5; }
     </style>
 </head>
@@ -141,7 +141,7 @@
             <div class="slide-container active" id="slide1">
                 <div class="content-area" style="text-align: center;">
                     <p style="font-family: 'Azeret Mono', monospace; color: var(--secondary); letter-spacing: 5px; margin-bottom: 20px; font-weight: 700;">SENIOR ADVANCED ENGLISH</p>
-                    <h1 style="font-size: 72px; line-height: 1.1;">The Gastronomic Odyssey:<br>Food Truck Evolution</h1>
+                    <h1 style="font-size: 84px; line-height: 1.1;">The History of Food Trucks</h1>
                     <p style="margin-top: 20px; font-size: 22px; color: var(--text-dim);">Economy, Culture, and Technology in American Street Food</p>
                     <a href="https://youtu.be/MHlFI96ZO4U" target="_blank" class="video-box">
                         <i class="fab fa-youtube"></i> WATCH THE ANALYSIS VIDEO
@@ -184,13 +184,13 @@
                             </ul>
                         </div>
                         <div class="image-wrapper">
-                            <img src="https://images.unsplash.com/photo-1512132411229-c30391241dd8?auto=format&fit=crop&q=80&w=1000" alt="Chuck Wagon History">
+                            <img src="https://images.unsplash.com/photo-1512132411229-c30391241dd8?auto=format&fit=crop&q=80&w=1000" alt="Historical Chuck Wagon">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Slide 4: Part 2 - Expansion (1930s-1970s) [Merged] -->
+            <!-- Slide 4: Part 2 - Expansion (Merged) -->
             <div class="slide-container" id="slide4">
                 <h2 class="slide-title">Part 2: Expansion & Cultural Fusion</h2>
                 <div class="content-area">
@@ -210,7 +210,7 @@
                 </div>
             </div>
 
-            <!-- Slide 5: Part 3 - 2008 Revolution [Bleed Fix] -->
+            <!-- Slide 5: Part 3 - 2008 Revolution -->
             <div class="slide-container bleed-image-layout" id="slide5">
                 <div class="bleed-content">
                     <h2 class="slide-title">Part 3: 2008 Revolution</h2>
@@ -233,10 +233,11 @@
                 </div>
             </div>
 
-            <!-- Slide 7: Mindmap [Text Color Fixed] -->
+            <!-- Slide 7: Interactive Mindmap -->
             <div class="slide-container" id="slide7">
                 <h2 class="slide-title">Interactive Historical Map</h2>
                 <div class="content-area">
+                    <p style="text-align: center; margin-bottom: 10px; color: var(--secondary); font-weight: bold;">[Click the nodes to expand the history]</p>
                     <div class="mindmap-area">
                         <svg id="markmap-svg"></svg>
                     </div>
@@ -268,7 +269,7 @@
                 </div>
             </div>
 
-            <!-- Slide 9: Assessment 2 -->
+            <!-- Assessment 2 -->
             <div class="slide-container" id="slide9">
                 <h2 class="slide-title">Assessment (2/5)</h2>
                 <div class="content-area">
@@ -284,7 +285,7 @@
                             <div class="ans-reveal"></div>
                         </div>
                         <div class="q-card" data-ans="King Taco">
-                            <p class="q-text">6. Which truck was founded in 1974 using an ice cream truck?</p>
+                            <p class="q-text">6. Which truck was founded in 1974 using an old ice cream truck?</p>
                             <div class="opt-grid"><button class="opt-btn" onclick="sel(this)">Kogi BBQ</button><button class="opt-btn" onclick="sel(this)">King Taco</button><button class="opt-btn" onclick="sel(this)">Wienermobile</button><button class="opt-btn" onclick="sel(this)">Lunch Wagon</button></div>
                             <div class="ans-reveal"></div>
                         </div>
@@ -293,7 +294,7 @@
                 </div>
             </div>
 
-            <!-- Slide 10: Assessment 3 -->
+            <!-- Assessment 3 -->
             <div class="slide-container" id="slide10">
                 <h2 class="slide-title">Assessment (3/5)</h2>
                 <div class="content-area">
@@ -318,7 +319,7 @@
                 </div>
             </div>
 
-            <!-- Slide 11: Assessment 4 -->
+            <!-- Assessment 4 -->
             <div class="slide-container" id="slide11">
                 <h2 class="slide-title">Assessment (4/5)</h2>
                 <div class="content-area">
@@ -343,7 +344,7 @@
                 </div>
             </div>
 
-            <!-- Slide 12: Assessment 5 -->
+            <!-- Assessment 5 -->
             <div class="slide-container" id="slide12">
                 <h2 class="slide-title">Assessment (5/5)</h2>
                 <div class="content-area">
@@ -392,6 +393,7 @@
         const slides = document.querySelectorAll('.slide-container');
         const pageCountText = document.getElementById('page-count');
 
+        // Responsive Scaling
         function scalePresentation() {
             const width = window.innerWidth;
             const height = window.innerHeight;
@@ -415,10 +417,11 @@
             });
             pageCountText.innerText = `${currentSlide + 1} / ${slides.length}`;
             if (currentSlide === 6) {
-                setTimeout(initMarkmap, 50); // Small delay to ensure display:flex is set
+                setTimeout(initMarkmap, 100); 
             }
         }
 
+        // Quiz Logic
         function sel(btn) {
             btn.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
@@ -433,19 +436,29 @@
                 const ans = card.dataset.ans.toLowerCase();
                 const reveal = card.querySelector('.ans-reveal');
                 let userAns = "", correct = false;
+
                 const opt = card.querySelector('.opt-btn.selected');
-                if(opt) { userAns = opt.innerText.toLowerCase(); correct = (userAns === ans); }
-                else {
+                if(opt) { 
+                    userAns = opt.innerText.toLowerCase(); 
+                    correct = (userAns === ans); 
+                } else {
                     const input = card.querySelector('.sa-input');
-                    if(input) { userAns = input.value.toLowerCase().trim(); correct = (userAns !== "" && (userAns.includes(ans) || ans.includes(userAns))); }
+                    if(input) { 
+                        userAns = input.value.toLowerCase().trim(); 
+                        correct = (userAns !== "" && (userAns.includes(ans) || ans.includes(userAns))); 
+                    }
                 }
+
                 card.classList.remove('correct', 'wrong');
                 card.classList.add(correct ? 'correct' : 'wrong');
                 reveal.style.display = 'block';
-                reveal.innerHTML = correct ? `<span style="color:var(--correct)"><i class="fas fa-check"></i> Correct!</span>` : `<span style="color:var(--wrong)"><i class="fas fa-times"></i> Answer: <strong>${card.dataset.ans}</strong></span>`;
+                reveal.innerHTML = correct ? 
+                    `<span style="color:var(--correct)"><i class="fas fa-check"></i> Correct!</span>` : 
+                    `<span style="color:var(--wrong)"><i class="fas fa-times"></i> Answer: <strong>${card.dataset.ans}</strong></span>`;
             });
         }
 
+        // Markmap Init [Collapsed & Color Fixed]
         let mm = null;
         function initMarkmap() {
             if (mm) return;
@@ -453,12 +466,20 @@
             const { Markmap, Transformer } = window.markmap;
             const transformer = new Transformer();
             const { root } = transformer.transform(md);
-            mm = Markmap.create('#markmap-svg', null, root);
             
-            // Explicitly set text color after creation
-            d3.selectAll('#markmap-svg text').style('fill', '#1a2b3c');
+            mm = Markmap.create('#markmap-svg', { initialExpandLevel: 0 }, root);
+            
+            // 색상 가시성을 위한 강제 스타일 적용
+            const styleText = () => {
+                d3.selectAll('#markmap-svg text').style('fill', '#1a2b3c').style('font-weight', '700');
+            };
+            
+            styleText();
+            // 확장/축소 시에도 색상 유지
+            mm.on('click', () => setTimeout(styleText, 50));
         }
 
+        // Keyboard Navigation
         document.addEventListener('keydown', (e) => {
             if(e.key === 'ArrowRight' || e.key === ' ') moveSlide(1);
             if(e.key === 'ArrowLeft') moveSlide(-1);
