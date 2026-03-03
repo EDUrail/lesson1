@@ -53,7 +53,7 @@
         /* Slide Core Styling */
         .slide-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: none; flex-direction: column; padding: 40px 70px 120px 70px; /* 하단 여백 추가 확보 */
+            display: none; flex-direction: column; padding: 40px 70px 130px 70px; 
             z-index: 1; opacity: 0; transition: opacity 0.3s ease;
         }
 
@@ -79,8 +79,8 @@
         #nav-footer {
             position: absolute; bottom: 0; width: 100%;
             display: flex; justify-content: center; align-items: center; gap: 40px; z-index: 100;
-            background: rgba(15, 23, 42, 0.85); padding: 15px 0;
-            border-top: 1px solid rgba(249, 115, 22, 0.2);
+            background: rgba(15, 23, 42, 0.95); padding: 15px 0;
+            border-top: 2px solid rgba(249, 115, 22, 0.3);
         }
         .nav-btn {
             background: var(--bg-accent); color: white; border: 1px solid var(--secondary);
@@ -116,6 +116,17 @@
         }
         #markmap-svg { width: 100%; height: 100%; background: white; }
 
+        /* 마인드맵 텍스트 색상 및 크기 강제 지정을 위한 강력한 CSS */
+        #markmap-svg text,
+        #markmap-svg div,
+        #markmap-svg span {
+            fill: #1a2b3c !important;
+            color: #1a2b3c !important;
+            font-weight: 800 !important;
+            font-family: 'Arimo', sans-serif !important;
+            font-size: 14px !important; /* 글씨 크기 축소 */
+        }
+
         /* Quiz UI */
         .quiz-scroll { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; max-height: 440px; padding-right: 15px; z-index: 2; }
         .q-card { background: var(--bg-accent); border: 2px solid #334155; padding: 18px; border-radius: 12px; position: relative; }
@@ -129,7 +140,6 @@
         .ans-reveal { margin-top: 8px; font-weight: 700; display: none; font-size: 16px; }
         .check-btn { background: var(--secondary); color: var(--primary); border: none; padding: 10px 30px; border-radius: 6px; font-weight: 800; cursor: pointer; margin-top: 10px; }
 
-        /* Bleed Layout Content */
         .bleed-content { padding: 50px 70px; display: flex; flex-direction: column; justify-content: center; z-index: 2; }
         .bleed-img { height: 720px; width: 100%; object-fit: cover; z-index: 1; border-left: 2px solid var(--secondary); }
         .video-box { margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; color: var(--secondary); text-decoration: none; font-weight: bold; font-size: 20px; z-index: 5; }
@@ -193,7 +203,7 @@
                 </div>
             </div>
 
-            <!-- Slide 4: Part 2 - Expansion (Merged) -->
+            <!-- Slide 4: Part 2 - Expansion -->
             <div class="slide-container" id="slide4">
                 <h2 class="slide-title">Part 2: Expansion & Cultural Fusion</h2>
                 <div class="content-area">
@@ -236,7 +246,7 @@
                 </div>
             </div>
 
-            <!-- Slide 7: Interactive Mindmap [Text Color FIXED] -->
+            <!-- Slide 7: Interactive Mindmap -->
             <div class="slide-container" id="slide7">
                 <h2 class="slide-title">Interactive Historical Map</h2>
                 <div class="content-area">
@@ -377,7 +387,7 @@
                 </div>
             </div>
 
-            <!-- Footer Navigation -->
+            <!-- Footer -->
             <div id="nav-footer">
                 <button class="nav-btn" onclick="moveSlide(-1)">PREVIOUS</button>
                 <div id="page-count">1 / 13</div>
@@ -416,11 +426,10 @@
             });
             pageCountText.innerText = `${currentSlide + 1} / ${slides.length}`;
             if (currentSlide === 6) {
-                setTimeout(initMarkmap, 100); 
+                setTimeout(initMarkmap, 200); 
             }
         }
 
-        // Quiz Logic
         function sel(btn) {
             btn.parentElement.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
@@ -454,33 +463,65 @@
                 reveal.style.display = 'block';
                 reveal.innerHTML = correct ? 
                     `<span style="color:var(--correct)"><i class="fas fa-check"></i> Correct!</span>` : 
-                    `<span style="color:var(--wrong)"><i class="fas fa-times"></i> Correct Answer: <strong>${ansOrig}</strong></span>`;
+                    `<span style="color:var(--wrong)"><i class="fas fa-times"></i> Answer: <strong>${ansOrig}</strong></span>`;
             });
         }
 
-        // Markmap Init [Collapsed & Text Color Forced]
+        // Markmap Init [Text Color, Font Size & Persistence Fixed]
         let mm = null;
         function initMarkmap() {
             if (mm) return;
-            const md = `# 🚚 Food Truck History\n- **1866: Chuck Wagon**\n  - Charles Goodnight\n  - Feeding Cowboys\n- **1936: Wienermobile**\n  - Oscar Mayer\n  - Marketing Icon\n- **1950s-70s: Growth**\n  - Ice Cream Trucks\n  - Loncheras (Taco Trucks)\n  - "Roach Coaches" (Old nickname)\n- **2008: Modern Revolution**\n  - **Kogi BBQ (Roy Choi)**\n  - Korean-Mexican Fusion\n  - Used **Twitter** (SNS)\n  - Result of Economic Recession\n- **Today & Future**\n  - Gourmet Quality\n  - Healthy Options\n  - High Technology`;
+            const md = `
+# 🚚 The History of Food Trucks
+- **1866: The Chuck Wagon**
+  - Charles Goodnight (Texas rancher)
+  - Necessity for cattle drives
+  - Modified surplus army wagon
+  - Storage for water, salted beef, beans
+- **1930s-1940s: Corporate & Military**
+  - **1936: Wienermobile** (Oscar Mayer)
+  - Marketing & Branding tool
+  - **WWII Mobile Canteens**
+  - Fed soldiers and factory workers
+- **1960s-1970s: Cultural Fusion**
+  - Rise of **Loncheras** (LA)
+  - **1974: King Taco** (Raul Martinez)
+  - Converted ice cream truck
+  - Immigrant entrepreneurship
+- **2008: The Digital Revolution**
+  - **Economic Recession** (Laid-off chefs)
+  - **Kogi BBQ** (Roy Choi)
+  - **Twitter (SNS)** for locations
+  - "Roach Coaches" to "Gourmet" hubs
+- **Modern Day & Future**
+  - **High Technology** (Apps, Wi-Fi)
+  - **Diverse Menus** (Fusion, Vegan)
+  - **Sustainability** (Local sourcing)
+  - Urban Lifestyle Staple
+            `;
             const { Markmap, Transformer } = window.markmap;
             const transformer = new Transformer();
             const { root } = transformer.transform(md);
             
-            // initialExpandLevel: 0 ensures only root is shown
             mm = Markmap.create('#markmap-svg', { initialExpandLevel: 0 }, root);
             
-            // Force Text Color Function
             const enforceStyle = () => {
-                d3.selectAll('#markmap-svg text').style('fill', '#1a2b3c').style('font-weight', '700');
+                const nodes = d3.selectAll('#markmap-svg text, #markmap-svg div, #markmap-svg span');
+                nodes.style('fill', '#1a2b3c') 
+                     .style('color', '#1a2b3c')
+                     .style('font-weight', '800')
+                     .style('font-size', '14px') // 글씨 크기 축소 적용
+                     .attr('fill', '#1a2b3c');
             };
             
             enforceStyle();
-            // Re-enforce color whenever the mindmap is clicked (expanded/collapsed)
-            mm.on('click', () => setTimeout(enforceStyle, 50));
+            mm.on('click', () => {
+                setTimeout(enforceStyle, 50);
+                setTimeout(enforceStyle, 200);
+            });
+            setTimeout(enforceStyle, 500);
         }
 
-        // Keyboard Navigation
         document.addEventListener('keydown', (e) => {
             if(e.key === 'ArrowRight' || e.key === ' ') moveSlide(1);
             if(e.key === 'ArrowLeft') moveSlide(-1);
