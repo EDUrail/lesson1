@@ -53,7 +53,7 @@
         /* Slide Core Styling */
         .slide-container {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: none; flex-direction: column; padding: 40px 70px 110px 70px; /* 여백 증가 */
+            display: none; flex-direction: column; padding: 40px 70px 120px 70px; /* 하단 여백 추가 확보 */
             z-index: 1; opacity: 0; transition: opacity 0.3s ease;
         }
 
@@ -75,20 +75,21 @@
         .slide-title { font-size: 38px; font-weight: 700; margin-bottom: 20px; border-left: 8px solid var(--secondary); padding-left: 20px; line-height: 1.1; }
         p, li, th, td { font-size: 19px; line-height: 1.5; color: var(--text-dim); z-index: 2; }
 
-        /* Navigation */
+        /* Navigation Footer */
         #nav-footer {
-            position: absolute; bottom: 20px; width: 100%;
+            position: absolute; bottom: 0; width: 100%;
             display: flex; justify-content: center; align-items: center; gap: 40px; z-index: 100;
-            background: rgba(15, 23, 42, 0.5); padding: 10px 0;
+            background: rgba(15, 23, 42, 0.85); padding: 15px 0;
+            border-top: 1px solid rgba(249, 115, 22, 0.2);
         }
         .nav-btn {
             background: var(--bg-accent); color: white; border: 1px solid var(--secondary);
-            padding: 8px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: 'Azeret Mono', monospace; transition: 0.2s;
+            padding: 10px 25px; border-radius: 5px; cursor: pointer; font-weight: bold; font-family: 'Azeret Mono', monospace; transition: 0.2s;
         }
         .nav-btn:hover { background: var(--secondary); color: var(--primary); }
         #page-count { font-family: 'Azeret Mono', monospace; font-size: 16px; color: var(--text-dim); }
 
-        /* Content Areas */
+        /* Content Area */
         .content-area { flex-grow: 1; display: flex; flex-direction: column; justify-content: center; width: 100%; z-index: 2; overflow: hidden; }
         .two-column { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
         .image-wrapper { border-radius: 15px; overflow: hidden; border: 1px solid var(--secondary); height: 350px; }
@@ -109,10 +110,11 @@
         }
 
         /* Mindmap Fixes */
-        .mindmap-area { width: 100%; height: 480px; background: white; border-radius: 12px; position: relative; border: 3px solid var(--secondary); }
+        .mindmap-area { 
+            width: 100%; height: 480px; background: white; border-radius: 12px; 
+            position: relative; border: 3px solid var(--secondary); overflow: hidden;
+        }
         #markmap-svg { width: 100%; height: 100%; background: white; }
-        /* 마인드맵 텍스트 색상 강제 지정 */
-        #markmap-svg text { fill: var(--dark-blue) !important; font-weight: 700 !important; cursor: pointer; font-family: 'Arimo', sans-serif !important; }
 
         /* Quiz UI */
         .quiz-scroll { display: flex; flex-direction: column; gap: 15px; overflow-y: auto; max-height: 440px; padding-right: 15px; z-index: 2; }
@@ -127,6 +129,7 @@
         .ans-reveal { margin-top: 8px; font-weight: 700; display: none; font-size: 16px; }
         .check-btn { background: var(--secondary); color: var(--primary); border: none; padding: 10px 30px; border-radius: 6px; font-weight: 800; cursor: pointer; margin-top: 10px; }
 
+        /* Bleed Layout Content */
         .bleed-content { padding: 50px 70px; display: flex; flex-direction: column; justify-content: center; z-index: 2; }
         .bleed-img { height: 720px; width: 100%; object-fit: cover; z-index: 1; border-left: 2px solid var(--secondary); }
         .video-box { margin-top: 20px; display: inline-flex; align-items: center; gap: 10px; color: var(--secondary); text-decoration: none; font-weight: bold; font-size: 20px; z-index: 5; }
@@ -195,11 +198,11 @@
                 <h2 class="slide-title">Part 2: Expansion & Cultural Fusion</h2>
                 <div class="content-area">
                     <div class="two-column">
-                        <div style="background: var(--bg-accent); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+                        <div style="background: var(--bg-accent); padding: 25px; border-radius: 12px; border: 1px solid #334155;">
                             <h3 style="color: var(--secondary); font-size: 22px;">Branding & War</h3>
-                            <p style="margin-top: 10px; font-size: 18px;">The 1936 <strong>Wienermobile</strong> became a marketing icon, while WWII <strong>mobile canteens</strong> fed factory workers and soldiers.</p>
+                            <p style="margin-top: 10px; font-size: 18px;">By 1936, the <strong>Wienermobile</strong> became a marketing icon, while WWII <strong>mobile canteens</strong> fed factory workers and soldiers.</p>
                         </div>
-                        <div style="background: var(--bg-accent); padding: 20px; border-radius: 12px; border: 1px solid #334155;">
+                        <div style="background: var(--bg-accent); padding: 25px; border-radius: 12px; border: 1px solid #334155;">
                             <h3 style="color: var(--secondary); font-size: 22px;">The Taco Era</h3>
                             <p style="margin-top: 10px; font-size: 18px;">In 1974, <strong>King Taco</strong> in LA converted an ice cream truck, sparking the immigrant-led street food culture.</p>
                         </div>
@@ -210,13 +213,13 @@
                 </div>
             </div>
 
-            <!-- Slide 5: Part 3 - 2008 Revolution -->
+            <!-- Slide 5: Part 3 - 2008 Digital Revolution -->
             <div class="slide-container bleed-image-layout" id="slide5">
                 <div class="bleed-content">
                     <h2 class="slide-title">Part 3: 2008 Revolution</h2>
                     <div class="content-area">
                         <h3 style="color: var(--secondary);">The Digital Pivot</h3>
-                        <p style="margin-top: 10px;">The 2008 <strong>recession</strong> pushed chefs out of restaurants and onto the streets. <strong>Kogi BBQ</strong> used <strong>Twitter</strong> for real-time location updates.</p>
+                        <p style="margin-top: 10px;">The 2008 <strong>recession</strong> pushed elite chefs to the streets. <strong>Kogi BBQ</strong> used <strong>Twitter</strong> for real-time location updates.</p>
                         <p style="margin-top: 10px;">Modern trucks are now sophisticated culinary platforms for urban professionals.</p>
                     </div>
                 </div>
@@ -233,7 +236,7 @@
                 </div>
             </div>
 
-            <!-- Slide 7: Interactive Mindmap -->
+            <!-- Slide 7: Interactive Mindmap [Text Color FIXED] -->
             <div class="slide-container" id="slide7">
                 <h2 class="slide-title">Interactive Historical Map</h2>
                 <div class="content-area">
@@ -244,7 +247,7 @@
                 </div>
             </div>
 
-            <!-- Slide 8: Assessment 1 -->
+            <!-- Slides 8-12: Assessment -->
             <div class="slide-container" id="slide8">
                 <h2 class="slide-title">Assessment (1/5)</h2>
                 <div class="content-area">
@@ -269,7 +272,6 @@
                 </div>
             </div>
 
-            <!-- Assessment 2 -->
             <div class="slide-container" id="slide9">
                 <h2 class="slide-title">Assessment (2/5)</h2>
                 <div class="content-area">
@@ -294,7 +296,6 @@
                 </div>
             </div>
 
-            <!-- Assessment 3 -->
             <div class="slide-container" id="slide10">
                 <h2 class="slide-title">Assessment (3/5)</h2>
                 <div class="content-area">
@@ -319,7 +320,6 @@
                 </div>
             </div>
 
-            <!-- Assessment 4 -->
             <div class="slide-container" id="slide11">
                 <h2 class="slide-title">Assessment (4/5)</h2>
                 <div class="content-area">
@@ -344,7 +344,6 @@
                 </div>
             </div>
 
-            <!-- Assessment 5 -->
             <div class="slide-container" id="slide12">
                 <h2 class="slide-title">Assessment (5/5)</h2>
                 <div class="content-area">
@@ -378,7 +377,7 @@
                 </div>
             </div>
 
-            <!-- Footer -->
+            <!-- Footer Navigation -->
             <div id="nav-footer">
                 <button class="nav-btn" onclick="moveSlide(-1)">PREVIOUS</button>
                 <div id="page-count">1 / 13</div>
@@ -433,7 +432,8 @@
         function check(btn) {
             const slide = btn.closest('.slide-container');
             slide.querySelectorAll('.q-card').forEach(card => {
-                const ans = card.dataset.ans.toLowerCase();
+                const ansOrig = card.dataset.ans;
+                const ans = ansOrig.toLowerCase();
                 const reveal = card.querySelector('.ans-reveal');
                 let userAns = "", correct = false;
 
@@ -454,11 +454,11 @@
                 reveal.style.display = 'block';
                 reveal.innerHTML = correct ? 
                     `<span style="color:var(--correct)"><i class="fas fa-check"></i> Correct!</span>` : 
-                    `<span style="color:var(--wrong)"><i class="fas fa-times"></i> Answer: <strong>${card.dataset.ans}</strong></span>`;
+                    `<span style="color:var(--wrong)"><i class="fas fa-times"></i> Correct Answer: <strong>${ansOrig}</strong></span>`;
             });
         }
 
-        // Markmap Init [Collapsed & Color Fixed]
+        // Markmap Init [Collapsed & Text Color Forced]
         let mm = null;
         function initMarkmap() {
             if (mm) return;
@@ -467,16 +467,17 @@
             const transformer = new Transformer();
             const { root } = transformer.transform(md);
             
+            // initialExpandLevel: 0 ensures only root is shown
             mm = Markmap.create('#markmap-svg', { initialExpandLevel: 0 }, root);
             
-            // 색상 가시성을 위한 강제 스타일 적용
-            const styleText = () => {
+            // Force Text Color Function
+            const enforceStyle = () => {
                 d3.selectAll('#markmap-svg text').style('fill', '#1a2b3c').style('font-weight', '700');
             };
             
-            styleText();
-            // 확장/축소 시에도 색상 유지
-            mm.on('click', () => setTimeout(styleText, 50));
+            enforceStyle();
+            // Re-enforce color whenever the mindmap is clicked (expanded/collapsed)
+            mm.on('click', () => setTimeout(enforceStyle, 50));
         }
 
         // Keyboard Navigation
